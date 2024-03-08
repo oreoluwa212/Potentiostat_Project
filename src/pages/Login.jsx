@@ -52,7 +52,7 @@ const Login = () => {
   };
   return (
     <div className="font-lexend w-full flex flex-col justify-center items-center">
-      <div className="w-1/2 pt-6 px-16 pb-12 bg-white shadow-2xl shadow-gray-500/80 rounded-[32px]">
+      <div className="mds:w-1/2 pt-6 px-16 pb-12 bg-white shadow-2xl shadow-gray-500/80 rounded-[32px]">
         <h4 className="text-[36px] text-center font-bold text-primary">
           Welcome back!
         </h4>

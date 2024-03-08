@@ -9,8 +9,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [viewPassword, setViewPassword] = useState(false);
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [name, setName] = useState("");
   const [viewConfirmPassword, setViewConfirmPassword] = useState(false);
   const [error, setError] = useState("");
   const validateEmail = (
@@ -104,7 +103,7 @@ const SignUp = () => {
   };
   return (
     <div className="bg-white font-lexend w-full h-screen flex flex-col gap-8 justify-center items-center">
-      <div className="w-1/2  px-16 pt-6 pb-6 bg-white shadow-2xl shadow-gray-500/80 rounded-lg">
+      <div className="mds:w-1/2  px-16 pt-6 pb-6 bg-white shadow-2xl shadow-gray-500/80 rounded-lg">
         <h4 className="text-[36px] text-center font-extrabold text-primary">
           Welcome to Ajayi's Project!
         </h4>
@@ -115,32 +114,20 @@ const SignUp = () => {
           <div className="flex w-full justify-between items-center gap-2">
             <div className="flex flex-col w-full">
               <label className="text-[#3B3F42] font-bold text-[16px]  ">
-                First Name
+                Name
               </label>
               <input
                 type="text"
-                value={firstName}
-                placeholder="First name"
-                onChange={(e) => setFirstName(e.target.value)}
-                name="firstName"
+                value={name}
+                placeholder="Name"
+                onChange={(e) => setName(e.target.value)}
+                name="name"
                 className="h-[50px]   w-full mt-1 px-[16px] font-medium border-[1px] mb-4 rounded-lg border-primary outline-none bg-white text-[#3B3F42] placeholder:text-[#ADADAD] transition duration-200"
               />
             </div>
 
           </div>
-          <div className="flex flex-col w-full">
-              <label className="text-[#3B3F42] font-bold text-[16px]  ">
-                Last name
-              </label>
-              <input
-                type="text"
-                value={lastName}
-                placeholder="Last name"
-                onChange={(e) => setLastName(e.target.value)}
-                name="lastName"
-                className="h-[50px] w-full mt-1 px-[16px] font-medium border-[1px] mb-4 rounded-lg border-primary outline-none bg-white text-[#3B3F42] placeholder:text-[#ADADAD] transition duration-200"
-              />
-            </div>
+
           <div className="flex flex-col w-full">
 
           <label className="text-[#3B3F42] font-bold text-[16px] ">Email</label>

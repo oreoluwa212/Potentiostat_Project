@@ -17,22 +17,22 @@ const Dashboard = () => {
           {isOpen ? (
             <FaTimes
               onClick={() => setIsOpen(false)}
-              className=" cursor-pointer text-red-800 text-[40px]"
+              className=" cursor-pointer text-red-800 mds:text-[40px]"
             />
           ) : (
             <GiHamburgerMenu
               onClick={() => setIsOpen(true)}
-              className="text-primary cursor-pointer text-[40px]" />
+              className="text-primary cursor-pointer mds:text-[40px]" />
           )}
         </div>
-        <h1 className="text-primary font-semibold text-[40px] w-4/5 leading-10 text-center">AJAYI OREOLUWA'S POTENTIOSTAT</h1>
+        <h1 className="text-primary font-semibold mds:text-[40px] w-4/5 leading-10 text-center">AJAYI OREOLUWA'S POTENTIOSTAT</h1>
         <a href="#" className="text-green">Link established</a>
       </div>
       <div className="flex relative">
       <Sidebar isOpen={isOpen} />
-      <div className="w-full h-full flex justify-between gap-4 z-0">
-        <div className="w-[48%] px-[5%] pt-6 flex flex-col gap-7">
-          <div className="bg-white rounded-lg shadow-lg shadow-black/50 h-[260px] w-3/5 px-[5%] py-4 flex flex-col justify-between">
+      <div className="w-full h-full flex mds:flex-row flex-col justify-between gap-4 z-0">
+        <div className="mds:w-[48%] px-[5%] pt-6 flex flex-col gap-7">
+          <div className="bg-white rounded-lg shadow-2xl shadow-black/20 h-[260px] mds:w-3/5 px-[5%] py-4 flex flex-col justify-between">
             <div className="flex justify-between items-center">
               <p className="text-primary text-[18px] font-semibold">Starting Voltage:</p>
               <button className="border-[1px] rounded-[16px] border-gray-500 w-[140px] h-[60px] flex justify-between items-center px-3">
@@ -73,24 +73,24 @@ const Dashboard = () => {
               </button>
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow-lg shadow-black/50 h-[500px] w-full px-[5%] py-3 flex flex-col justify-between">
+          <div className="bg-white rounded-lg shadow-2xl shadow-black/30 h-[500px] w-full px-[5%] py-3 flex flex-col justify-between">
             <h1>Chart</h1>
           </div>
         </div>
 
-        <div className="w-[48%] px-[5%] pt-6 flex flex-col gap-10">
-          <div className="bg-white rounded-lg shadow-lg shadow-black/50 h-[450px] w-full px-[5%] py-3 flex flex-col justify-between">
+        <div className="mds:w-[48%] px-[5%] pt-6 flex flex-col gap-10">
+          <div className="bg-white rounded-lg shadow-2xl shadow-black/30 h-[450px] w-full px-[5%] py-3 flex flex-col justify-between">
             <h1>Table</h1>
           </div>
           <div className="w-full flex flex-col gap-10 justify-center items-center">
-            <div className="w-[180px] h-[180px] rounded-[50%] shadow-green/80 shadow-lg flex justify-center items-center">
-              <button className="text-green border-none text-[34px] font-bold">START</button>
-            </div>
+          <div className="w-[180px] h-[180px] rounded-[50%] shadow-green-lg flex justify-center items-center">
+  <button className="text-green text-[34px] font-bold">START</button>
+</div>
             <div className="flex justify-between items-center w-1/2">
               <p className="text-primary font-semibold text-[18px]">
                 Running Time:
               </p>
-              <button className="text-primary border-[1px] rounded-[16px] h-[50px] border-gray-400 font-bold text-[22px] italic px-4">00: 00: 00</button>
+              <button className="text-primary border-[1px] rounded-[16px] w-[150px] h-[50px] border-gray-400 font-bold text-[22px] italic px-4"><p className="text-[20px]">00: 00: 00</p></button>
             </div>
           </div>
         </div>
