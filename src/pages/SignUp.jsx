@@ -14,20 +14,12 @@ const SignUp = () => {
   const [error, setError] = useState("");
   const validateEmail = (
     email,
-    firstName,
-    lastName,
+    name,
     password,
     confirmPassword
   ) => {
     //check if name is empty
-    if (!firstName) {
-      setError("You need to tell us your name to proceed");
-      setTimeout(() => {
-        setError("");
-      }, 5000);
-      return false;
-    }
-    if (!lastName) {
+    if (!name) {
       setError("You need to tell us your name to proceed");
       setTimeout(() => {
         setError("");
@@ -96,7 +88,7 @@ const SignUp = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!validateEmail(email, lastName, firstName, password, confirmPassword)) {
+    if (!validateEmail(email, name, password, confirmPassword)) {
       return;
     }
     navigate("/verify-mail");
