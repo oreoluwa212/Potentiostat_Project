@@ -83,11 +83,11 @@ const Login = () => {
         <form className="w-full px-8 mt-2 pt-8" onSubmit={handleSubmit}>
           <div className="flex flex-col w-full">
 
-          <label className="text-[#3B3F42] font-bold text-[16px] ">Email</label>
+          <label className="text-[#3B3F42] font-bold text-[16px] ">Username</label>
           <input
             type="text"
             value={email}
-            placeholder="Email"
+            placeholder="Username"
             onChange={(e) => setEmail(e.target.value)}
             name="email"
             className="h-[50px] w-full mt-1 px-[16px] font-medium border-[1px] mb-6 rounded-lg border-primary outline-none bg-white text-[#3B3F42] placeholder:text-[#ADADAD] transition duration-200"
