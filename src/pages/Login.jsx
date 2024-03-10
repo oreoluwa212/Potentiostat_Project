@@ -10,31 +10,21 @@ import ClipLoader from "react-spinners/ClipLoader"
 
 const Login = () => {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
   const [loader, setLoader] = useState(false)
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
   const [viewPassword, setViewPassword] = useState(false);
+
   const validateEmail = (email, password) => {
     // check if email is empty
-    if (!email) {
-      setError("Kindly tell us your mail");
+    if (!username) {
+      setError("Kindly tell us your username");
       setTimeout(() => {
         setError("");
       }, 5000);
       return false;
     }
-    // const emailRegex =
-    //   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-    // if (!emailRegex.test(email)) {
-    //   setError("Your email is not in the correct format");
-    //   setTimeout(() => {
-    //     setError("");
-    //   }, 6000);
-    //   return false;
-    // }
-    // check if password is empty
     if (!password) {
       setError("We need your password to proceed");
       setTimeout(() => {
@@ -42,21 +32,21 @@ const Login = () => {
       }, 5000);
       return false;
     }
-
     setError("");
     return true;
   };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!validateEmail(email, password)) {
+    if (!validateEmail(username, password)) {
       return;
     }
     if(!loader){
       setLoader(true)
       axios
         .post(`${API_URL}api/v1/auth/login`, {
-          "username": email,
+          username,
           password
         })
         .then((r) => {
@@ -86,9 +76,9 @@ const Login = () => {
           <label className="text-[#3B3F42] font-bold text-[16px] ">Username</label>
           <input
             type="text"
-            value={email}
+            value={username}
             placeholder="Username"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setUsername(e.target.value)}
             name="email"
             className="h-[50px] w-full mt-1 px-[16px] font-medium border-[1px] mb-6 rounded-lg border-primary outline-none bg-white text-[#3B3F42] placeholder:text-[#ADADAD] transition duration-200"
           />

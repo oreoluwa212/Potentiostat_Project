@@ -17,7 +17,7 @@ const Sidebar = ({ isOpen }) => {
   return (
     <div className="">
       {isOpen && (
-        <div className="absolute z-10 w-1/6 flex flex-col border-r font-lexend border-[#FF8C42] shadow-lg pt-[5%] shadow-gray-400/50 h-full justify-start px-4 items-start bg-white">
+        <div className="absolute z-10 w-2/3 lgss:w-1/6 flex flex-col border-r font-lexend border-[#FF8C42] shadow-lg pt-[5%] shadow-gray-400/50 h-full justify-start px-4 items-start bg-white">
           <div className=" w-full flex flex-col gap-3 justify-start items-center">
             <Link
               to="/home"
