@@ -113,11 +113,20 @@ const SignUp = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    if (!validateEmail(firstName, lastName, username, email, confirmPassword, password)) {
+    if (
+      !validateEmail(
+        firstName,
+        lastName,
+        username,
+        email,
+        confirmPassword,
+        password
+      )
+    ) {
       return;
     }
-    if(!loader){
-      setLoader(true)
+    if (!loader) {
+      setLoader(true);
       axios
         .post(`${API_URL}api/v1/users`, {
           firstName,
@@ -125,23 +134,34 @@ const SignUp = () => {
           username,
           email,
           password,
-          confirmPassword
+          confirmPassword,
         })
         .then((r) => {
-          setLoader(false)
-          navigate("/home")
+          setLoader(false);
+          navigate("/home");
           console.log(r);
         })
-        .catch((e) => {
-          setLoader(false)
-          console.log(e);
+        .catch((error) => {
+          setLoader(false);
+          if (error.response) {
+            if (error.response.status === 409) {
+              setError(
+                "This email address is already in use. Please use a different email."
+              );
+            } else {
+              console.log("Error:", error.response.data);
+              setError("Account already exists");
+            }
+          } else {
+            console.log("Request setup error:", error.message);
+            setError("Account already exists, proceed to login");
+          }
         });
-
     }
   };
   return (
-    <div className="bg-white font-lexend w-full mt-5 flex flex-col gap-8 justify-center items-center">
-      <div className="mds:w-2/3  px-16 pt-6 pb-6 bg-white shadow-2xl shadow-gray-500/80 rounded-lg">
+    <div className="bg-white font-lexend w-full flex flex-col gap-8 justify-center items-center">
+      <div className="mds:w-2/3 mt-4 px-16 pt-6 pb-6 bg-white shadow-2xl shadow-gray-500/80 rounded-lg">
         <h4 className="text-[36px] text-center font-extrabold text-primary">
           Welcome to Ajayi's Project!
         </h4>

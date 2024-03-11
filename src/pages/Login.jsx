@@ -5,13 +5,12 @@ import { BiErrorCircle } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../constants";
-import ClipLoader from "react-spinners/ClipLoader"
-
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Login = () => {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
-  const [loader, setLoader] = useState(false)
+  const [loader, setLoader] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [viewPassword, setViewPassword] = useState(false);
@@ -42,23 +41,41 @@ const Login = () => {
     if (!validateEmail(username, password)) {
       return;
     }
-    if(!loader){
-      setLoader(true)
+    if (!loader) {
+      setLoader(true);
       axios
         .post(`${API_URL}api/v1/auth/login`, {
           username,
-          password
+          password,
         })
         .then((r) => {
-          setLoader(false)
-          navigate("/home")
+          setLoader(false);
+          navigate("/home");
           console.log(r);
         })
-        .catch((e) => {
-          setLoader(false)
-          console.log(e);
+        .catch((error) => {
+          setLoader(false);
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            if (error.response.status === 404) {
+              // Handle incorrect username or password error
+              setError("Incorrect username or password. Please try again.");
+            }
+            if (error.response.status === 409) {
+              // Handle email already in use error
+              setError(
+                "This username or password is incorrect. Please try again."
+              );
+            } 
+          } else if (error.request) {
+            // The request was made but no response was received
+            console.log("No response received:", error.request);
+            setError(
+              "No response received from the server. Please try again later."
+            );
+          } 
         });
-
     }
   };
   return (
@@ -72,43 +89,43 @@ const Login = () => {
         </h4>
         <form className="w-full px-8 mt-2 pt-8" onSubmit={handleSubmit}>
           <div className="flex flex-col w-full">
-
-          <label className="text-[#3B3F42] font-bold text-[16px] ">Username</label>
-          <input
-            type="text"
-            value={username}
-            placeholder="Username"
-            onChange={(e) => setUsername(e.target.value)}
-            name="email"
-            className="h-[50px] w-full mt-1 px-[16px] font-medium border-[1px] mb-6 rounded-lg border-primary outline-none bg-white text-[#3B3F42] placeholder:text-[#ADADAD] transition duration-200"
-          />
+            <label className="text-[#3B3F42] font-bold text-[16px] ">
+              Username
+            </label>
+            <input
+              type="text"
+              value={username}
+              placeholder="Username"
+              onChange={(e) => setUsername(e.target.value)}
+              name="email"
+              className="h-[50px] w-full mt-1 px-[16px] font-medium border-[1px] mb-6 rounded-lg border-primary outline-none bg-white text-[#3B3F42] placeholder:text-[#ADADAD] transition duration-200"
+            />
           </div>
           <div className="flex flex-col w-full">
-
-          <label className="text-[#3B3F42] font-bold text-[16px]">
-            Password
-          </label>
-          <label className="relative  flex items-center ">
-            <input
-              type={viewPassword ? "text" : "password"}
-              value={password}
-              placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
-              name="password"
-              className="h-[50px]   w-full mt-1 px-[16px] font-medium border-[1px] rounded-lg border-primary outline-none bg-white text-[#3B3F42] placeholder:text-[#ADADAD] transition duration-200"
-            />
-            {!viewPassword ? (
-              <AiOutlineEyeInvisible
-                className="text-3xl -ml-10 mt-[5px] text-[#3B3F42] placeholder:text-[#ADADAD]"
-                onClick={() => setViewPassword((prev) => !prev)}
+            <label className="text-[#3B3F42] font-bold text-[16px]">
+              Password
+            </label>
+            <label className="relative  flex items-center ">
+              <input
+                type={viewPassword ? "text" : "password"}
+                value={password}
+                placeholder="Password"
+                onChange={(e) => setPassword(e.target.value)}
+                name="password"
+                className="h-[50px]   w-full mt-1 px-[16px] font-medium border-[1px] rounded-lg border-primary outline-none bg-white text-[#3B3F42] placeholder:text-[#ADADAD] transition duration-200"
               />
-            ) : (
-              <AiOutlineEye
-                className="text-3xl -ml-10 mt-[5px] text-[#3B3F42] placeholder:text-[#ADADAD]"
-                onClick={() => setViewPassword((prev) => !prev)}
-              />
-            )}
-          </label>
+              {!viewPassword ? (
+                <AiOutlineEyeInvisible
+                  className="text-3xl -ml-10 mt-[5px] text-[#3B3F42] placeholder:text-[#ADADAD]"
+                  onClick={() => setViewPassword((prev) => !prev)}
+                />
+              ) : (
+                <AiOutlineEye
+                  className="text-3xl -ml-10 mt-[5px] text-[#3B3F42] placeholder:text-[#ADADAD]"
+                  onClick={() => setViewPassword((prev) => !prev)}
+                />
+              )}
+            </label>
           </div>
           <h2
             onClick={() => navigate("/forgot-password")}
@@ -126,8 +143,7 @@ const Login = () => {
             type="submit"
             className="w-full h-[52px] mt-8 rounded-lg bg-primary  text-[16px] text-white"
           >
-            {loader? <ClipLoader color="#ffffff" />:"Login"}
-            
+            {loader ? <ClipLoader color="#ffffff" /> : "Login"}
           </button>
           <h4 className="font-manrope  text-[#645D5D] font-medium text-[15px] text-center mt-4">
             Don’t have an account?{" "}
