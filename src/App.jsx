@@ -6,6 +6,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import CreateNewPassword from './pages/CreateNewPassword'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
+import CreateClientsPage from './pages/CreateClientsPage'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -18,6 +19,7 @@ function App() {
         <Route path="/home" element={<Dashboard/>} />
         <Route path="/new-password" element={<CreateNewPassword />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/create-client" element={<CreateClientsPage />} />
 
       </Routes>
     </>

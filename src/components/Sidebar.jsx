@@ -9,16 +9,17 @@ import '../App.css'
 const Sidebar = ({ isOpen }) => {
   const location = useLocation();
   const navigate = useNavigate();
-  const [activebutton, setActiveButton] = useState(1);
+  const [activebutton, setActiveButton] = useState(2);
   useEffect(() => {
     if (location.pathname === "/home") setActiveButton(1);
-    else if (location.pathname === "/home") setActiveButton(2);
+    else if (location.pathname === "/create-client") setActiveButton(2);
   }, [location.pathname]);
   return (
     <div className="">
       {isOpen && (
         <div className="absolute z-10 w-2/3 lgss:w-1/6 flex flex-col border-r font-lexend border-[#FF8C42] shadow-lg pt-[5%] shadow-gray-400/50 h-full justify-start px-4 items-start bg-white">
-          <div className=" w-full flex flex-col gap-3 justify-start items-center">
+          <div className=" w-full h-full pb-6 flex flex-col gap-3 justify-between items-center">
+            <div className="flex flex-col gap-3 w-full">
             <Link
               to="/home"
               className={
@@ -31,17 +32,18 @@ const Sidebar = ({ isOpen }) => {
               <FaHome className="text-[24px]" />
             </Link>
             <Link
-              to="/home"
+              to="/create-client"
               className={
                 activebutton === 2
-                  ? "flex justify-between text-[20px] text-white items-center font-bold  rounded-full px-4 bg-[#4488AC] w-full h-[60px]"
+                  ? "flex justify-between text-[20px] text-white items-center font-bold  rounded-full px-4 bg-primary w-full h-[60px]"
                   : "flex justify-between text-[20px] text-[#6B7276] items-center font-bold  px-4  w-full h-[60px]"
               }
             >
-              <h4 className="">History</h4>
+              <h4 className="">Clients</h4>
               <BiSolidUserCircle className="text-[24px]" />
             </Link>
 
+            </div>
             <button
               onClick={() => navigate("/login")}
               className="flex border-none justify-between text-[20px] text-[#B82323] items-center  font-bold  px-4  w-full "
