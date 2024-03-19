@@ -7,23 +7,73 @@ import Dashboard from './pages/Dashboard'
 import CreateNewPassword from './pages/CreateNewPassword'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import CreateClientsPage from './pages/CreateClientsPage'
+import ExperimentHistory from './pages/ExperimentHistory'
+import ExpDetails from './pages/ExpDetails'
+import NewClient from './components/NewClient'
+import Redirect from "./components/utils/Redirect"
+import PrivateRoute from './components/PrivateRoute'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
       <Routes>
-        <Route path="/" element={<SignUp/>} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/home" element={<Dashboard/>} />
+        <Route path="/" element={<Redirect to="/login" />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route
+          path="/home"
+          element={
+            <PrivateRoute>
+              <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/experiment-details"
+          element={
+            <PrivateRoute>
+              <ExpDetails />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/new-client"
+          element={
+            <PrivateRoute>
+              <NewClient />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/experiment-details"
+          element={
+            <PrivateRoute>
+              <ExpDetails />
+            </PrivateRoute>
+          }
+        />
         <Route path="/new-password" element={<CreateNewPassword />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-        <Route path="/create-client" element={<CreateClientsPage />} />
-
+        <Route
+          path="/create-client"
+          element={
+            <PrivateRoute>
+              <CreateClientsPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/client-history"
+          element={
+            <PrivateRoute>
+              <ExperimentHistory />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </>
-  )
+  );
 }
 
 export default App

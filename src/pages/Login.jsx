@@ -1,21 +1,28 @@
 import React, { useState } from "react";
 import { AiOutlineEyeInvisible, AiOutlineEye } from "react-icons/ai";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { BiErrorCircle } from "react-icons/bi";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { API_URL } from "../constants";
 import ClipLoader from "react-spinners/ClipLoader";
+import { useAuth } from "../context/auth-context";
+import { FaRegCheckCircle } from "react-icons/fa";
 
 const Login = () => {
+  const location = useLocation()
+  const {state} = location
+  const {authenticate} = useAuth()
   const navigate = useNavigate();
+  const {from = "/home"} = state || {}
   const [username, setUsername] = useState("");
   const [loader, setLoader] = useState(false);
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [viewPassword, setViewPassword] = useState(false);
 
-  const validateEmail = (email, password) => {
+  const validateEmail = (username, password) => {
     // check if email is empty
     if (!username) {
       setError("Kindly tell us your username");
@@ -50,27 +57,22 @@ const Login = () => {
         })
         .then((r) => {
           setLoader(false);
-          navigate("/home");
-          console.log(r);
+          setSuccess("You have succesfully logged in")
+          setTimeout(() => {
+            authenticate(r.data.access_token)
+            setSuccess("");
+            navigate(from)
+          }, 2000);
+          // console.log(r.data.access_token);
         })
         .catch((error) => {
+          console.log(error)
+          setError(error.message)
+          setTimeout(() => {
+            setError("")
+          }, 3000);
           setLoader(false);
-          if (error.response) {
-
-            if (error.response.status === 404) {
-              setError("Incorrect username or password. Please try again.");
-            }
-            if (error.response.status === 409) {
-              setError(
-                "This username or password is incorrect. Please try again."
-              );
-            } 
-          } else if (error.request) {
-            console.log("No response received:", error.request);
-            setError(
-              "No response received from the server. Please try again later."
-            );
-          } 
+          
         });
     }
   };
@@ -130,9 +132,15 @@ const Login = () => {
             Forgot password?
           </h2>
           {error && (
-            <div className="bg-red-600 w-full  text-white text-[14px] rounded-xl justify-start items-center gap-2 flex h-[48px] px-2 font-bold mt-4">
+            <div className="bg-red-600 w-full  text-white text-[14px] rounded-xl justify-start items-center gap-2 flex h-[48px] p-3 font-bold mt-4">
               <BiErrorCircle className="text-xl" />
               {error}
+            </div>
+          )}
+          {success && (
+            <div className="bg-green w-full  text-white text-[13px] rounded-xl justify-start items-center gap-4 flex p-3 font-bold mt-4">
+              <FaRegCheckCircle className="text-xl" />
+              {success}
             </div>
           )}
           <button
@@ -145,7 +153,7 @@ const Login = () => {
             Don’t have an account?{" "}
             <span
               onClick={() => {
-                navigate("/");
+                navigate("/signup");
               }}
               className=" text-primary font-bold cursor-pointer"
             >

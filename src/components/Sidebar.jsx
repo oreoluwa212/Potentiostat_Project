@@ -4,11 +4,11 @@ import { FaHome } from "react-icons/fa";
 import { BiSolidUserCircle } from "react-icons/bi";
 import { HiOutlineLogout } from "react-icons/hi";
 import '../App.css'
+import { useAuth } from "../context/auth-context";
 
 
 const Sidebar = ({ isOpen }) => {
-  const location = useLocation();
-  const navigate = useNavigate();
+  const {logout} = useAuth()
   const [activebutton, setActiveButton] = useState(2);
   useEffect(() => {
     if (location.pathname === "/home") setActiveButton(1);
@@ -43,14 +43,14 @@ const Sidebar = ({ isOpen }) => {
               <BiSolidUserCircle className="text-[24px]" />
             </Link>
 
-            </div>
             <button
-              onClick={() => navigate("/login")}
-              className="flex border-none justify-between text-[20px] text-[#B82323] items-center  font-bold  px-4  w-full "
+              onClick={logout}
+              className="flex mt-20 border-none justify-between text-[20px] text-[#B82323] items-center  font-bold  px-4  w-full "
             >
               Logout
               <HiOutlineLogout className="text-[24px]" />
             </button>
+            </div>
           </div>
         </div>
       )}

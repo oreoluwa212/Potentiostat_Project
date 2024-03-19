@@ -7,25 +7,28 @@ import '../../src/App.css'
 import mockData from '../components/MOCK_DATA.json'
 
 
-const Dashboard = () => {
+const ExpDetails = () => {
   const [isOpen, setIsOpen] = useState(false);
-    const [state, setState] = useState({
-      options: {
-        colors: ["#E91E63", "#FF9800"],
-        chart: {
-          id: "basic-bar",
-        },
-        xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2001, 2003, 2004, 2006, 2008, 2011],
-        },
+  const [state, setState] = useState({
+    options: {
+      colors: ["#E91E63", "#FF9800"],
+      chart: {
+        id: "basic-bar",
       },
-      series: [
-        {
-          name: "People Born",
-          data: [30, 40, 45, 50, 49, 60, 70, 91,67,26,36,19,27,75,19],
-        },
-      ],
-    });
+      xaxis: {
+        categories: [
+          1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2001, 2003,
+          2004, 2006, 2008, 2011,
+        ],
+      },
+    },
+    series: [
+      {
+        name: "People Born",
+        data: [30, 40, 45, 50, 49, 60, 70, 91, 67, 26, 36, 19, 27, 75, 19],
+      },
+    ],
+  });
 
   return (
     <div className="flex h-screen">
@@ -71,58 +74,34 @@ const Dashboard = () => {
                   <p className="text-primary text-[18px] font-semibold">
                     Starting Voltage:
                   </p>
-                  <button className="border-[1px] rounded-[16px] border-gray-500 w-[140px] h-[60px] flex justify-between items-center px-3">
-                    <input
-                      type="text"
-                      className="w-2/3 bg-transparent outline-none text-primary"
-                      placeholder="0.8764"
-                    />
+                  <div className="border-[1px] rounded-[16px] border-gray-500 w-[140px] h-[60px] flex justify-between items-center px-3">
+                    <p className="w-2/3 bg-transparent outline-none text-primary"></p>
                     <div className="flex items-center gap-4">
                       <p>V</p>
-                      <div className="flex flex-col gap-2">
-                        <FaAngleUp />
-                        <FaAngleDown />
-                      </div>
                     </div>
-                  </button>
+                  </div>
                 </div>
                 <div className="flex justify-between items-center">
                   <p className="text-primary text-[18px] font-semibold">
                     Stop Voltage:
                   </p>
-                  <button className="border-[1px] rounded-[16px] border-gray-500 w-[140px] h-[60px] flex justify-between items-center px-3">
-                    <input
-                      type="text"
-                      className="w-2/3 bg-transparent outline-none text-primary"
-                      placeholder="0.8764"
-                    />
+                  <div className="border-[1px] rounded-[16px] border-gray-500 w-[140px] h-[60px] flex justify-between items-center px-3">
+                    <p className="w-2/3 bg-transparent outline-none text-primary"></p>
                     <div className="flex items-center gap-4">
                       <p>V</p>
-                      <div className="flex flex-col gap-2">
-                        <FaAngleUp />
-                        <FaAngleDown />
-                      </div>
                     </div>
-                  </button>
+                  </div>
                 </div>
                 <div className="flex justify-between items-center">
                   <p className="text-primary text-[18px] font-semibold">
                     Scan Rate:
                   </p>
-                  <button className="border-[1px] rounded-[16px] border-gray-500 w-[140px] h-[60px] flex justify-between items-center px-3">
-                    <input
-                      type="text"
-                      className="w-2/3 bg-transparent outline-none text-primary"
-                      placeholder="10"
-                    />
+                  <div className="border-[1px] rounded-[16px] border-gray-500 w-[140px] h-[60px] flex justify-between items-center px-3">
+                    <p className="w-2/3 bg-transparent outline-none text-primary"></p>
                     <div className="flex items-center gap-4">
-                      <p>mV/s</p>
-                      <div className="flex flex-col gap-2">
-                        <FaAngleUp />
-                        <FaAngleDown />
-                      </div>
+                      <p>V</p>
                     </div>
-                  </button>
+                  </div>
                 </div>
               </div>
               <div className="bg-white rounded-lg shadow-2xl shadow-black/30 mb-5 w-full flex flex-col justify-between">
@@ -170,21 +149,6 @@ const Dashboard = () => {
                   </table>
                 </div>
               </div>
-              <div className="w-full flex flex-col gap-10 justify-center items-center">
-                <div className="w-[180px] h-[180px] rounded-[50%] shadow-green-lg flex justify-center items-center">
-                  <button className="text-green text-[34px] font-bold">
-                    START
-                  </button>
-                </div>
-                <div className="flex justify-between items-center w-1/2">
-                  <p className="text-primary font-semibold text-[18px]">
-                    Running Time:
-                  </p>
-                  <button className="text-primary border-[1px] rounded-[16px] w-[150px] h-[50px] border-gray-400 font-bold text-[22px] italic px-4">
-                    <p className="text-[20px]">00: 00: 00</p>
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
         </div>
@@ -193,4 +157,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default ExpDetails;
