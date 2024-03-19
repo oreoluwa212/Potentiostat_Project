@@ -56,20 +56,16 @@ const Login = () => {
         .catch((error) => {
           setLoader(false);
           if (error.response) {
-            // The request was made and the server responded with a status code
-            // that falls out of the range of 2xx
+
             if (error.response.status === 404) {
-              // Handle incorrect username or password error
               setError("Incorrect username or password. Please try again.");
             }
             if (error.response.status === 409) {
-              // Handle email already in use error
               setError(
                 "This username or password is incorrect. Please try again."
               );
             } 
           } else if (error.request) {
-            // The request was made but no response was received
             console.log("No response received:", error.request);
             setError(
               "No response received from the server. Please try again later."
