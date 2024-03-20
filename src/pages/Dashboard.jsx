@@ -3,29 +3,31 @@ import Chart from "react-apexcharts";
 import Sidebar from "../components/Sidebar";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaAngleDown, FaAngleUp, FaTimes } from "react-icons/fa";
-import '../../src/App.css'
-import mockData from '../components/MOCK_DATA.json'
-
+import "../../src/App.css";
+import mockData from "../components/MOCK_DATA.json";
 
 const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
-    const [state, setState] = useState({
-      options: {
-        colors: ["#E91E63", "#FF9800"],
-        chart: {
-          id: "basic-bar",
-        },
-        xaxis: {
-          categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2001, 2003, 2004, 2006, 2008, 2011],
-        },
+  const [state, setState] = useState({
+    options: {
+      colors: ["#E91E63", "#FF9800"],
+      chart: {
+        id: "basic-bar",
       },
-      series: [
-        {
-          name: "People Born",
-          data: [30, 40, 45, 50, 49, 60, 70, 91,67,26,36,19,27,75,19],
-        },
-      ],
-    });
+      xaxis: {
+        categories: [
+          1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2001, 2003,
+          2004, 2006, 2008, 2011,
+        ],
+      },
+    },
+    series: [
+      {
+        name: "People Born",
+        data: [30, 40, 45, 50, 49, 60, 70, 91, 67, 26, 36, 19, 27, 75, 19],
+      },
+    ],
+  });
 
   return (
     <div className="flex h-screen">
@@ -33,7 +35,7 @@ const Dashboard = () => {
         <div className="overlay" onClick={() => setIsOpen(false)}></div>
       )}
       <div
-        className={`flex flex-col w-full ${isOpen ? "overflow-hidden" : ""}`}
+        className={`flex flex-col w-full ${isOpen ? "overflow-hidden " : ""}`}
       >
         <div className=" w-full px-[5%] bg-[#D9D9D9]">
           <div className=" ">
