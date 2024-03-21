@@ -5,6 +5,9 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { FaAngleDown, FaAngleUp, FaTimes } from "react-icons/fa";
 import "../../src/App.css";
 import mockData from "../components/MOCK_DATA.json";
+import axios from "axios";
+import { API_URL } from "../constants";
+
 
 const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,7 +31,26 @@ const Dashboard = () => {
       },
     ],
   });
+  const [start, setStart] = useState("")
+  const [stop, setStop] = useState("")
+  const [scan, setScan] = useState("")
 
+  const startExperiment = async ()=>{
+    try{
+      if (!start || !stop || !scan){
+        alert("Enter the starting voltage, the stop voltage and scan rate to proceed")
+      }
+      const data = {
+        start: start,
+        stop: stop,
+        scan: scan
+      }
+      // const response = axios.post(`${API_URL}api/v1/experiments`, data);
+
+    }catch(error){
+      console.log(error)
+    }
+  }
   return (
     <div className="flex h-screen">
       {isOpen && (
@@ -75,6 +97,9 @@ const Dashboard = () => {
                   </p>
                   <button className="border-[1px] rounded-[16px] border-gray-500 w-[140px] h-[60px] flex justify-between items-center px-3">
                     <input
+                      onChange={(eve) => {
+                        setStart(eve.target.value);
+                      }}
                       type="text"
                       className="w-2/3 bg-transparent outline-none text-primary"
                       placeholder="0.8764"
@@ -94,6 +119,9 @@ const Dashboard = () => {
                   </p>
                   <button className="border-[1px] rounded-[16px] border-gray-500 w-[140px] h-[60px] flex justify-between items-center px-3">
                     <input
+                      onChange={(eve) => {
+                        setStop(eve.target.value);
+                      }}
                       type="text"
                       className="w-2/3 bg-transparent outline-none text-primary"
                       placeholder="0.8764"
@@ -114,6 +142,9 @@ const Dashboard = () => {
                   <button className="border-[1px] rounded-[16px] border-gray-500 w-[140px] h-[60px] flex justify-between items-center px-3">
                     <input
                       type="text"
+                      onChange={(eve) => {
+                        setScan(eve.target.value);
+                      }}
                       className="w-2/3 bg-transparent outline-none text-primary"
                       placeholder="10"
                     />
@@ -174,7 +205,10 @@ const Dashboard = () => {
               </div>
               <div className="w-full flex flex-col gap-10 justify-center items-center">
                 <div className="w-[180px] h-[180px] rounded-[50%] shadow-green-lg flex justify-center items-center">
-                  <button className="text-green text-[34px] font-bold">
+                  <button
+                    onClick={startExperiment}
+                    className="text-green text-[34px] font-bold"
+                  >
                     START
                   </button>
                 </div>
