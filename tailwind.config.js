@@ -6,7 +6,8 @@ module.exports = {
       colors: {
         primary: "#5C2061",
         secondary: "#FFFFFF",
-        green: "#307C29",      
+        green: "#307C29",
+        red: "#FF0000",
       },
       fontFamily: {
         lexend: ["Lexend", "sans-serif"],

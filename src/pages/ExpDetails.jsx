@@ -117,7 +117,7 @@ const ExpDetails = () => {
               </div>
             </div>
 
-            <div className="lgss:w-[45%]  pt-6 flex flex-col gap-10">
+            <div className="lgss:w-[45%] pt-6 flex flex-col gap-10">
               <div className="bg-white rounded-lg shadow-2xl shadow-black/30 overflow-auto h-[500px] w-full p-3 py-3 flex flex-col justify-between">
                 <div className="">
                   <table className="w-full text-center">

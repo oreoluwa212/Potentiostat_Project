@@ -25,7 +25,7 @@ function App() {
           path="/home"
           element={
             <PrivateRoute>
-              <Dashboard />
+              <ExpDetails />
             </PrivateRoute>
           }
         />
@@ -33,7 +33,7 @@ function App() {
           path="/experiment-details"
           element={
             <PrivateRoute>
-              <ExpDetails />
+              <Dashboard />
             </PrivateRoute>
           }
         />

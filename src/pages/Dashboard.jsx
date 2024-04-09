@@ -1,56 +1,88 @@
 import React, { useState } from "react";
-import Chart from "react-apexcharts";
 import Sidebar from "../components/Sidebar";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaAngleDown, FaAngleUp, FaTimes } from "react-icons/fa";
 import "../../src/App.css";
-import mockData from "../components/MOCK_DATA.json";
 import axios from "axios";
 import { API_URL } from "../constants";
-
+import { useNavigate } from "react-router";
 
 const Dashboard = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [state, setState] = useState({
-    options: {
-      colors: ["#E91E63", "#FF9800"],
-      chart: {
-        id: "basic-bar",
-      },
-      xaxis: {
-        categories: [
-          1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2001, 2003,
-          2004, 2006, 2008, 2011,
-        ],
-      },
-    },
-    series: [
-      {
-        name: "People Born",
-        data: [30, 40, 45, 50, 49, 60, 70, 91, 67, 26, 36, 19, 27, 75, 19],
-      },
-    ],
-  });
-  const [start, setStart] = useState("")
-  const [stop, setStop] = useState("")
-  const [scan, setScan] = useState("")
+  const [start, setStart] = useState("");
+  const [stop, setStop] = useState("");
+  const [scan, setScan] = useState("");
+  const [runningTime, setRunningTime] = useState(0);
+  const [timerId, setTimerId] = useState(null);
+  const [experimentRunning, setExperimentRunning] = useState(false);
+  const navigate = useNavigate();
 
-  const startExperiment = async ()=>{
-    try{
-      if (!start || !stop || !scan){
-        alert("Enter the starting voltage, the stop voltage and scan rate to proceed")
-      }
-      const data = {
-        start: start,
-        stop: stop,
-        scan: scan
-      }
-      // const response = axios.post(`${API_URL}api/v1/experiments`, data);
 
-    }catch(error){
-      console.log(error)
+  const startExperiment = async () => {
+    try {
+      if (!start || !stop || !scan) {
+        alert(
+          "Enter the starting voltage, the stop voltage, and scan rate to proceed"
+        );
+      } else {
+        if (experimentRunning) {
+          if (
+            window.confirm(
+              "Experiment is already running. Are you sure you want to stop?"
+            )
+          ) {
+            clearInterval(timerId);
+            setRunningTime(0);
+            setExperimentRunning(false);
+            setTimerId(null);
+          }
+        } else {
+          // Start the running time
+          const id = setInterval(() => {
+            setRunningTime((prevTime) => prevTime + 1);
+          }, 1000);
+          setTimerId(id);
+
+          // Other logic to send data to the backend
+          const data = {
+            start: start,
+            stop: stop,
+            scan: scan,
+          };
+          // const response = axios.post(`${API_URL}api/v1/experiments`, data);
+          setExperimentRunning(true);
+        }
+      }
+    } catch (error) {
+      console.log(error);
     }
-  }
+  };
+
+  const stopExperiment = () => {
+    if (window.confirm("Are you sure you want to stop the experiment?")) {
+      clearInterval(timerId);
+      setRunningTime(0);
+      setExperimentRunning(false);
+      setTimerId(null);
+      // Add logic to navigate to ExperimentDonePage
+      navigate("/home");
+    }
+  };
+
+  const formatTime = (seconds) => {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = seconds % 60;
+    return `${hours.toString().padStart(2, "0")}:${minutes
+      .toString()
+      .padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
+  };
+
+  const handleSubmit = (eve) => {
+    eve.preventDefault();
+    // Call your function to handle form submission
+  };
+
   return (
     <div className="flex h-screen">
       {isOpen && (
@@ -88,7 +120,10 @@ const Dashboard = () => {
 
         <div className="flex relative">
           <Sidebar isOpen={isOpen} />
-          <div className="w-full h-full flex lgss:flex-row flex-col z-0">
+          <form
+            onSubmit={handleSubmit}
+            className="w-full h-full flex lgss:flex-row flex-col z-0"
+          >
             <div className="lgss:w-[53%] px-[5%] pt-6 flex flex-col gap-7">
               <div className="bg-white rounded-lg shadow-2xl shadow-black/20 h-[250px] mds:w-3/5 px-[5%] py-4 flex flex-col justify-between">
                 <div className="flex justify-between items-center">
@@ -158,71 +193,40 @@ const Dashboard = () => {
                   </button>
                 </div>
               </div>
-              <div className="bg-white rounded-lg shadow-2xl shadow-black/30 mb-5 w-full flex flex-col justify-between">
-                <div className="h-full pt-4 px-2">
-                  <Chart
-                    options={state.options}
-                    series={state.series}
-                    type="line"
-                    width="100%"
-                    height={"700px"}
-                  />
-                </div>
-              </div>
             </div>
 
-            <div className="lgss:w-[45%]  pt-6 flex flex-col gap-10">
-              <div className="bg-white rounded-lg shadow-2xl shadow-black/30 overflow-auto h-[500px] w-full p-3 py-3 flex flex-col justify-between">
-                <div className="">
-                  <table className="w-full text-center">
-                    <thead>
-                      <tr className="border-b-[1px] border-gray-300">
-                        <th className="">S/N</th>
-                        <th>Time</th>
-                        <th>Voltage</th>
-                        <th>Current (mA)</th>
-                        <th>Current(A)</th>
-                        <th>Natural Log</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {mockData.map((rowData, index) => (
-                        <tr
-                          className="border-b-[1px] border-gray-300"
-                          key={index}
-                        >
-                          <td className="py-2 ">{rowData["S/N"]}</td>
-                          <td>{rowData["Time"]}</td>
-                          <td>{rowData["Voltage"]}</td>
-                          <td>{rowData["Current (mA)"]}</td>
-                          <td>{rowData["Current(A)"]}</td>
-                          <td>{rowData["Natural Log"]}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+            <div className="lgss:w-[45%] pt-6 flex flex-col gap-10">
               <div className="w-full flex flex-col gap-10 justify-center items-center">
-                <div className="w-[180px] h-[180px] rounded-[50%] shadow-green-lg flex justify-center items-center">
+                <div
+                  onClick={
+                    experimentRunning ? stopExperiment : startExperiment
+                  }
+                  className={`shadow-${
+                    experimentRunning ? "red" : "green"
+                  }-lg w-[180px] h-[180px] rounded-[50%] bg-white border flex justify-center items-center`}
+                >
                   <button
-                    onClick={startExperiment}
-                    className="text-green text-[34px] font-bold"
+                    className={`text-${
+                      experimentRunning ? "red" : "green"
+                    } text-[34px] font-bold`}
                   >
-                    START
+                    {experimentRunning ? "STOP" : "START"}
                   </button>
                 </div>
                 <div className="flex justify-between items-center w-1/2">
                   <p className="text-primary font-semibold text-[18px]">
                     Running Time:
                   </p>
-                  <button className="text-primary border-[1px] rounded-[16px] w-[150px] h-[50px] border-gray-400 font-bold text-[22px] italic px-4">
-                    <p className="text-[20px]">00: 00: 00</p>
+                  <button
+                    onClick={stopExperiment}
+                    className="text-primary border-[1px] rounded-[16px] w-[150px] h-[50px] border-gray-400 font-bold text-[22px] italic px-4"
+                  >
+                    <p className="text-[20px]">{formatTime(runningTime)}</p>
                   </button>
                 </div>
               </div>
             </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>

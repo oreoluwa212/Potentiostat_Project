@@ -45,24 +45,21 @@ const ExperimentHistory = () => {
 
         <div className="flex relative h-full">
           <Sidebar isOpen={isOpen} />
-          <div className="-5 w-full flex flex-col  items-center pt-5 gap-8">
-            <div className="flex justify-between items-baseline w-3/5">
+          <div className=" w-full flex flex-col items-center pt-5 gap-8">
+            <div className="flex lgss:flex-row flex-col gap-5 justify-between items-baseline w-3/5">
               <input
                 type="text"
-                className="bg-[#D9D9D9] w-[40%] border-primary border-[1px] pl-6 outline-none rounded-[8px] h-[60px]"
+                className="bg-[#D9D9D9] lgss:w-[40%] w-full border-primary border-[1px] px-2 outline-none rounded-[8px] py-4"
                 placeholder="Search Clients"
               />
-              <button className="text-white bg-primary w-[120px] h-[40px] inline-flex justify-between px-2 items-center">
-                <FaPlus /> New Client
-              </button>
             </div>
-            <div className="bg-white rounded-lg shadow-2xl shadow-black/30 mb-5 w-1/3 h-full flex flex-col justify-between p-7 ">
+            <div className="bg-white rounded-lg shadow-2xl shadow-black/30 mb-5 lgss:w-[60%] w-[90%] h-full flex flex-col justify-between pt-7 ">
               <table className="w-full text-center">
                 <thead>
                   <tr className="border-b-[1px] border-gray-300">
                     <th className="">Date</th>
                     <th>Time</th>
-                    <th>Title</th>
+                    <th>Client</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -71,7 +68,7 @@ const ExperimentHistory = () => {
                   <tr className="border-b-[1px] border-gray-300">
                     <td className="py-2 ">03/03/2024</td>
                     <td>03:00</td>
-                    <td>Mild Steel 1</td>
+                    <td>raspberry-pi</td>
                     <Link to={"/experiment-details"}>
                       <td>
                         <FaArrowRight />
