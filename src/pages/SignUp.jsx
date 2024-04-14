@@ -138,7 +138,7 @@ const SignUp = () => {
         })
         .then((r) => {
           setLoader(false);
-          navigate("/home");
+          navigate("/create-client");
           console.log(r);
         })
         .catch((error) => {

@@ -5,6 +5,7 @@ import { ClipLoader } from "react-spinners";
 import { API_URL } from "../constants";
 import axios from "axios";
 import { useAuth } from "../context/auth-context";
+import { json } from "react-router";
 
 const NewClient = ({ setOpenModal, setRefreshCount }) => {
   const { token } = useAuth();
@@ -13,6 +14,7 @@ const NewClient = ({ setOpenModal, setRefreshCount }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const clients = [];
 
   const validateEmail = (username, password) => {
     // check if email is empty
@@ -56,6 +58,8 @@ const NewClient = ({ setOpenModal, setRefreshCount }) => {
           }
         )
         .then((r) => {
+          clients.push(r.data)
+          localStorage.setItem("clients" , JSON.stringify(clients));
           setLoader(false);
           setSuccess(`A new user has been created with name ${username}`);
           setRefreshCount((prev) => prev+1);
