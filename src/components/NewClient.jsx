@@ -5,7 +5,6 @@ import { ClipLoader } from "react-spinners";
 import { API_URL } from "../constants";
 import axios from "axios";
 import { useAuth } from "../context/auth-context";
-import { json } from "react-router";
 
 const NewClient = ({ setOpenModal, setRefreshCount }) => {
   const { token } = useAuth();
@@ -58,11 +57,11 @@ const NewClient = ({ setOpenModal, setRefreshCount }) => {
           }
         )
         .then((r) => {
-          clients.push(r.data)
-          localStorage.setItem("clients" , JSON.stringify(clients));
+          clients.push(r.data);
+          localStorage.setItem("clients", JSON.stringify(clients));
           setLoader(false);
           setSuccess(`A new user has been created with name ${username}`);
-          setRefreshCount((prev) => prev+1);
+          setRefreshCount((prev) => prev + 1);
           setTimeout(() => {
             setSuccess("");
             setOpenModal((prev) => !prev);

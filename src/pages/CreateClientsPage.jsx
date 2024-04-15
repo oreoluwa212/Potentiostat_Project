@@ -101,14 +101,12 @@ const CreateClientsPage = () => {
                   {clients.length >= 1 ? (
                     <div className="w-full grid grid-cols-2 gap-2 mds:grid-cols-3 md:grid-cols-4">
                       {clients.map((client, index) => {
-                        clientId = client.id
-                        console.log(client)
-                        localStorage.setItem(
-                          "clientId",
-                          JSON.stringify(clientId)
-                        );
                         return (
-                          <Link to={"/experiment-details"} key={index}>
+                          <Link
+                            to={"/experiment-details"}
+                            state={{ clientId: client.identifier }}
+                            key={index}
+                          >
                             <div className="bg-white rounded-lg shadow-lg shadow-black/20 h-[100px] mds:w-[120px] flex flex-col justify-center items-center">
                               <p className="text-primary font-semibold">
                                 {client.identifier}

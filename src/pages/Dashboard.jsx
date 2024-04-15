@@ -5,9 +5,11 @@ import { FaAngleDown, FaAngleUp, FaTimes } from "react-icons/fa";
 import "../../src/App.css";
 import axios from "axios";
 import { API_URL } from "../constants";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
+import { useAuth } from "../context/auth-context";
 
 const Dashboard = () => {
+  const { token } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [start, setStart] = useState("");
   const [stop, setStop] = useState("");
@@ -16,7 +18,10 @@ const Dashboard = () => {
   const [timerId, setTimerId] = useState(null);
   const [experimentRunning, setExperimentRunning] = useState(false);
   const navigate = useNavigate();
-
+  let clientId = "";
+  if (useLocation().state) {
+    clientId = useLocation().state.clientId;
+  }
 
   const startExperiment = async () => {
     try {
@@ -45,12 +50,22 @@ const Dashboard = () => {
 
           // Other logic to send data to the backend
           const data = {
-            start: start,
-            stop: stop,
-            scan: scan,
+            client_id: clientId,
+            start_voltage: start,
+            end_voltage: stop,
+            voltage_step: scan,
           };
-          // const response = axios.post(`${API_URL}api/v1/experiments`, data);
           setExperimentRunning(true);
+          const response = await axios.post(
+            `${API_URL}api/v1/experiments`,
+            data,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          console.log(response);
         }
       }
     } catch (error) {
@@ -65,6 +80,7 @@ const Dashboard = () => {
       setExperimentRunning(false);
       setTimerId(null);
       // Add logic to navigate to ExperimentDonePage
+
       navigate("/home");
     }
   };
@@ -76,11 +92,6 @@ const Dashboard = () => {
     return `${hours.toString().padStart(2, "0")}:${minutes
       .toString()
       .padStart(2, "0")}:${remainingSeconds.toString().padStart(2, "0")}`;
-  };
-
-  const handleSubmit = (eve) => {
-    eve.preventDefault();
-    // Call your function to handle form submission
   };
 
   return (
@@ -121,7 +132,7 @@ const Dashboard = () => {
         <div className="flex relative">
           <Sidebar isOpen={isOpen} />
           <form
-            onSubmit={handleSubmit}
+            onSubmit={(e) => e.preventDefault()}
             className="w-full h-full flex lgss:flex-row flex-col z-0"
           >
             <div className="lgss:w-[53%] px-[5%] pt-6 flex flex-col gap-7">
@@ -198,9 +209,7 @@ const Dashboard = () => {
             <div className="lgss:w-[45%] pt-6 flex flex-col gap-10">
               <div className="w-full flex flex-col gap-10 justify-center items-center">
                 <div
-                  onClick={
-                    experimentRunning ? stopExperiment : startExperiment
-                  }
+                  onClick={experimentRunning ? stopExperiment : startExperiment}
                   className={`shadow-${
                     experimentRunning ? "red" : "green"
                   }-lg w-[180px] h-[180px] rounded-[50%] bg-white border flex justify-center items-center`}

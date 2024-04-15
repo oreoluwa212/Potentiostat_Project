@@ -3,9 +3,8 @@ import Chart from "react-apexcharts";
 import Sidebar from "../components/Sidebar";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaAngleDown, FaAngleUp, FaTimes } from "react-icons/fa";
-import '../../src/App.css'
-import mockData from '../components/MOCK_DATA.json'
-
+import "../../src/App.css";
+import mockData from "../components/MOCK_DATA.json";
 
 const ExpDetails = () => {
   const [isOpen, setIsOpen] = useState(false);

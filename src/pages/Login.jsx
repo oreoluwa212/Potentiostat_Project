@@ -10,11 +10,11 @@ import { useAuth } from "../context/auth-context";
 import { FaRegCheckCircle } from "react-icons/fa";
 
 const Login = () => {
-  const location = useLocation()
-  const {state} = location
-  const {authenticate} = useAuth()
+  const location = useLocation();
+  const { state } = location;
+  const { authenticate } = useAuth();
   const navigate = useNavigate();
-  const {from = "/home"} = state || {}
+  const { from = "/home" } = state || {};
   const [username, setUsername] = useState("");
   const [loader, setLoader] = useState(false);
   const [password, setPassword] = useState("");
@@ -57,22 +57,21 @@ const Login = () => {
         })
         .then((r) => {
           setLoader(false);
-          setSuccess("You have succesfully logged in")
+          setSuccess("You have succesfully logged in");
           setTimeout(() => {
-            authenticate(r.data.access_token)
+            authenticate(r.data.access_token);
             setSuccess("");
-            navigate(from)
+            navigate(from);
           }, 2000);
-          // console.log(r.data.access_token);
+          console.log(r.data.access_token);
         })
         .catch((error) => {
-          console.log(error)
-          setError(error.message)
+          console.log(error);
+          setError(error.message);
           setTimeout(() => {
-            setError("")
+            setError("");
           }, 3000);
           setLoader(false);
-          
         });
     }
   };
