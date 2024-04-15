@@ -63,7 +63,6 @@ const Login = () => {
             setSuccess("");
             navigate(from);
           }, 2000);
-          console.log(r.data.access_token);
         })
         .catch((error) => {
           console.log(error);

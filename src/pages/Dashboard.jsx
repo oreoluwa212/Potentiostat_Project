@@ -17,6 +17,7 @@ const Dashboard = () => {
   const [runningTime, setRunningTime] = useState(0);
   const [timerId, setTimerId] = useState(null);
   const [experimentRunning, setExperimentRunning] = useState(false);
+  let currentExperiment = {};
   const navigate = useNavigate();
   let clientId = "";
   if (useLocation().state) {
@@ -65,7 +66,11 @@ const Dashboard = () => {
               },
             }
           );
-          console.log(response);
+          currentExperiment = response.data;
+          localStorage.setItem(
+            "running_experiment",
+            JSON.stringify(currentExperiment)
+          );
         }
       }
     } catch (error) {
@@ -80,8 +85,43 @@ const Dashboard = () => {
       setExperimentRunning(false);
       setTimerId(null);
       // Add logic to navigate to ExperimentDonePage
-
-      navigate("/home");
+      currentExperiment = JSON.parse(
+        localStorage.getItem("running_experiment")
+      );
+      axios
+        .put(
+          `${API_URL}api/v1/experiments/${currentExperiment.id}/stop`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {})
+        .catch((err) => {
+          console.log(err);
+        });
+      /*
+this nt working yet something with the BE I guesss
+      axios
+        .get(
+          `${API_URL}/api/v1/experiments/${currentExperiment.id}/measurements`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+          save the res.data in a state so it will  accessible in the home route
+          // navigate("/home");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+*/
     }
   };
 
