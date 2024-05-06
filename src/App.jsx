@@ -44,14 +44,6 @@ function App() {
             </PrivateRoute>
           }
         />
-        <Route
-          path="/experiment-details"
-          element={
-            <PrivateRoute>
-              <ExpDetails />
-            </PrivateRoute>
-          }
-        />
         <Route path="/new-password" element={<CreateNewPassword />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route

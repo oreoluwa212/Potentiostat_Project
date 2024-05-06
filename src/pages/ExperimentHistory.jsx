@@ -69,7 +69,7 @@ const ExperimentHistory = () => {
                     <td className="py-2 ">03/03/2024</td>
                     <td>03:00</td>
                     <td>raspberry-pi</td>
-                    <Link to={"/experiment-details"}>
+                    <Link to={"/home"}>
                       <td>
                         <FaArrowRight />
                       </td>

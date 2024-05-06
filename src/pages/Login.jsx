@@ -14,7 +14,7 @@ const Login = () => {
   const { state } = location;
   const { authenticate } = useAuth();
   const navigate = useNavigate();
-  const { from = "/home" } = state || {};
+  const { from = "/create-client" } = state || {};
   const [username, setUsername] = useState("");
   const [loader, setLoader] = useState(false);
   const [password, setPassword] = useState("");

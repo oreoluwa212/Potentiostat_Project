@@ -7,6 +7,7 @@ import axios from "axios";
 import { API_URL } from "../constants";
 import { useLocation, useNavigate } from "react-router";
 import { useAuth } from "../context/auth-context";
+import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   const { token } = useAuth();
@@ -128,7 +129,11 @@ const Dashboard = () => {
             </div>
           </div>
         </div>
-
+        <div className="flex px-[5%] pt-4 text-primary font-semibold italic">
+          <Link to={"/client-history"}>
+            <h1>View past experiments</h1>
+          </Link>
+        </div>
         <div className="flex relative">
           <Sidebar isOpen={isOpen} />
           <form
