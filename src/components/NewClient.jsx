@@ -45,7 +45,7 @@ const NewClient = ({ setOpenModal, setRefreshCount }) => {
       setLoader(true);
       axios
         .post(
-          `${API_URL}api/v1/clients`,
+          `${API_URL}/clients`,
           {
             identifier: username,
             secret: password,

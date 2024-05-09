@@ -22,7 +22,7 @@ const CreateClientsPage = () => {
     if (!loader) {
       setLoader(true);
       axios
-        .get(`${API_URL}api/v1/clients/`, {
+        .get(`${API_URL}/clients/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -103,7 +103,7 @@ const CreateClientsPage = () => {
                       {clients.map((client, index) => {
                         return (
                           <Link
-                            to={"/experiment-details"}
+                            to={`/experiment-details/${client.identifier}`}
                             state={{ clientId: client.identifier }}
                             key={index}
                           >

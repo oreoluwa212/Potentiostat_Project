@@ -90,7 +90,7 @@ const CreateNewPassword = () => {
     if (!loader) {
       setLoader(true);
       axios
-        .post(`${API_URL}api/v1/auth/reset-password`, {
+        .post(`${API_URL}/auth/reset-password`, {
           username,
           token,
           password,

@@ -51,7 +51,7 @@ const Login = () => {
     if (!loader) {
       setLoader(true);
       axios
-        .post(`${API_URL}api/v1/auth/login`, {
+        .post(`${API_URL}/auth/login`, {
           username,
           password,
         })

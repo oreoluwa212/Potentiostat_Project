@@ -59,7 +59,7 @@ const Dashboard = () => {
           };
           setExperimentRunning(true);
           const response = await axios.post(
-            `${API_URL}api/v1/experiments`,
+            `${API_URL}/experiments`,
             data,
             {
               headers: {
@@ -91,7 +91,7 @@ const Dashboard = () => {
       );
       axios
         .put(
-          `${API_URL}api/v1/experiments/${currentExperiment.id}/stop`,
+          `${API_URL}/experiments/${currentExperiment.id}/stop`,
           {},
           {
             headers: {
@@ -170,7 +170,7 @@ this nt working yet something with the BE I guesss
           </div>
         </div>
         <div className="flex px-[5%] pt-4 text-primary font-semibold italic">
-          <Link to={"/client-history"}>
+          <Link to={`/client-history/${clientId}`} state={{ clientId }}>
             <h1>View past experiments</h1>
           </Link>
         </div>

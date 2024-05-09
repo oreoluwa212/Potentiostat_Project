@@ -33,7 +33,7 @@ const ForgotPasswordPage = () => {
     if (!loader) {
       setLoader(true);
       axios
-        .post(`${API_URL}api/v1/auth/forgot-password`, {
+        .post(`${API_URL}/auth/forgot-password`, {
           username,
         })
         .then((r) => {

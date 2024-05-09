@@ -1,12 +1,22 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Chart from "react-apexcharts";
 import Sidebar from "../components/Sidebar";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaAngleDown, FaAngleUp, FaTimes } from "react-icons/fa";
 import "../../src/App.css";
 import mockData from "../components/MOCK_DATA.json";
+import { useLocation, useNavigate } from "react-router";
+import { useAuth } from "../context/auth-context";
+import axios from "axios";
+import { API_URL } from "../constants";
 
 const ExpDetails = () => {
+  let experiment = {};
+  if (useLocation().state) {
+    experiment = useLocation().state.experiment;
+  }
+  const { token } = useAuth();
+  const [measurements, setMeasurement] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [state, setState] = useState({
     options: {
@@ -28,6 +38,31 @@ const ExpDetails = () => {
       },
     ],
   });
+  function convertEpochToUTCDate(epochTimestamp) {
+    // Create a new Date object from the epoch timestamp
+    const date = new Date(epochTimestamp * 1000);  // Convert to milliseconds by multiplying by 1000
+
+    // Return the UTC date and time in 'YYYY-MM-DD HH:MM:SS' format
+    return date.toISOString().replace('T', ' ').substring(0, 19);
+}
+  const getExperimentMeasurement = async () => {
+    try {
+      let { data } = await axios.get(`${API_URL}/experiments/${experiment.id}/measurements`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(data)
+      
+      setMeasurement(data);
+    } catch (error) { 
+      console.log('c', error)
+    }
+  }
+  useEffect(() => {
+    console.log('Effect running', { token, experiment });
+    getExperimentMeasurement();
+  }, []);
 
   return (
     <div className="flex h-screen">
@@ -76,7 +111,7 @@ const ExpDetails = () => {
                   <div className="border-[1px] rounded-[16px] border-gray-500 w-[140px] h-[60px] flex justify-between items-center px-3">
                     <p className="w-2/3 bg-transparent outline-none text-primary"></p>
                     <div className="flex items-center gap-4">
-                      <p>V</p>
+                      <p>{experiment.start_voltage} V</p>
                     </div>
                   </div>
                 </div>
@@ -87,18 +122,18 @@ const ExpDetails = () => {
                   <div className="border-[1px] rounded-[16px] border-gray-500 w-[140px] h-[60px] flex justify-between items-center px-3">
                     <p className="w-2/3 bg-transparent outline-none text-primary"></p>
                     <div className="flex items-center gap-4">
-                      <p>V</p>
+                      <p>{experiment.end_voltage} V</p>
                     </div>
                   </div>
                 </div>
                 <div className="flex justify-between items-center">
                   <p className="text-primary text-[18px] font-semibold">
-                    Scan Rate:
+                    Voltage Step:
                   </p>
                   <div className="border-[1px] rounded-[16px] border-gray-500 w-[140px] h-[60px] flex justify-between items-center px-3">
-                    <p className="w-2/3 bg-transparent outline-none text-primary"></p>
+                    <p className="bg-transparent outline-none text-primary"></p>
                     <div className="flex items-center gap-4">
-                      <p>V</p>
+                      <p>{experiment.voltage_step} V</p>
                     </div>
                   </div>
                 </div>
@@ -127,21 +162,21 @@ const ExpDetails = () => {
                         <th>Voltage</th>
                         <th>Current (mA)</th>
                         <th>Current(A)</th>
-                        <th>Natural Log</th>
+                        <th>Log</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {mockData.map((rowData, index) => (
+                      {measurements.map((rowData, index) => (
                         <tr
                           className="border-b-[1px] border-gray-300"
                           key={index}
                         >
-                          <td className="py-2 ">{rowData["S/N"]}</td>
-                          <td>{rowData["Time"]}</td>
-                          <td>{rowData["Voltage"]}</td>
-                          <td>{rowData["Current (mA)"]}</td>
-                          <td>{rowData["Current(A)"]}</td>
-                          <td>{rowData["Natural Log"]}</td>
+                          <td className="py-2 ">{rowData["id"]}</td>
+                          <td>{convertEpochToUTCDate(rowData["timestamp"])}</td>
+                          <td>{rowData["voltage"]}</td>
+                          <td>{rowData["current"]}</td>
+                          <td>{(rowData["current"]) / 1000}</td>
+                          <td>{Math.log(rowData["current"])}</td>
                         </tr>
                       ))}
                     </tbody>

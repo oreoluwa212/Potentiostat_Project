@@ -21,7 +21,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route
-          path="/home"
+          path="/experiment/:id/measurements"
           element={
             <PrivateRoute>
               <ExpDetails />
@@ -29,7 +29,7 @@ function App() {
           }
         />
         <Route
-          path="/experiment-details"
+          path="/experiment-details/:id"
           element={
             <PrivateRoute>
               <Dashboard />
@@ -55,7 +55,7 @@ function App() {
           }
         />
         <Route
-          path="/client-history"
+          path="/client-history/:id"
           element={
             <PrivateRoute>
               <ExperimentHistory />

@@ -128,7 +128,7 @@ const SignUp = () => {
     if (!loader) {
       setLoader(true);
       axios
-        .post(`${API_URL}api/v1/users`, {
+        .post(`${API_URL}/users`, {
           firstName,
           lastName,
           username,

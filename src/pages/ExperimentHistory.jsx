@@ -1,13 +1,41 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "../components/Sidebar";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaAngleDown, FaAngleUp, FaArrowRight, FaPlus, FaTimes } from "react-icons/fa";
 import "../../src/App.css";
 import { Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router";
+import { useAuth } from "../context/auth-context";
+import axios from "axios";
+import { API_URL } from "../constants";
 
 const ExperimentHistory = () => {
+  let clientId = "";
+  if (useLocation().state) {
+    clientId = useLocation().state.clientId;
+  }
+  const { token } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-
+  const [experiments, setExperiment] = useState([]);
+  const getExperimentHistory = async () => {
+    try {
+      let { data } = await axios.get(`${API_URL}/experiments`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(data.content)
+      let experiments = data.content;
+      let clientExperiments = experiments.filter(exp => exp.client_id === clientId);
+      setExperiment(clientExperiments);
+    } catch (error) { 
+      console.log('c', error)
+    }
+  }
+  useEffect(() => {
+    console.log('Effect running', { token, clientId });
+    getExperimentHistory();
+  }, []);
   return (
     <div className="flex h-screen">
       {isOpen && (
@@ -57,25 +85,33 @@ const ExperimentHistory = () => {
               <table className="w-full text-center">
                 <thead>
                   <tr className="border-b-[1px] border-gray-300">
-                    <th className="">Date</th>
-                    <th>Time</th>
-                    <th>Client</th>
+                    <th className="">ID</th>
+                    <th>Status</th>
+                    <th>Start Voltage (V)</th>
+                    <th>Stop Voltage (V)</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <input type="checkbox" />
+                {experiments.length === 0 ? (
+                  <h1>No Experiment</h1>
+                ) : (
+                  <tbody>
+                    {experiments.map((experiment, index) => (
+                      <tr key={index} className="border-b-[1px] border-gray-300">
+                        <td className="py-2">{experiment.id}</td>
+                        <td>{experiment.experiment_status}</td>
+                        <td>{experiment.start_voltage}</td>
+                        <td>{experiment.end_voltage}</td>
+                        <Link to={`/experiment/${experiment.id}/measurements`} state={{ experiment: experiment}}>
+                          <td>
+                            <FaArrowRight />
+                          </td>
+                        </Link>
+                      </tr>
+                    ))}
+                  </tbody>
+                )}
 
-                  <tr className="border-b-[1px] border-gray-300">
-                    <td className="py-2 ">03/03/2024</td>
-                    <td>03:00</td>
-                    <td>raspberry-pi</td>
-                    <Link to={"/home"}>
-                      <td>
-                        <FaArrowRight />
-                      </td>
-                    </Link>
-                  </tr>
-                </tbody>
+
               </table>
             </div>
           </div>
